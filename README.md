@@ -34,13 +34,14 @@ A polished Tkinter desktop app for Windows to download YouTube videos or audio w
 
 1. Clone the repo:
 git clone https://github.com/mdazharulislamnk/Azhar-YouTube-Video-Downloader.git
-cd Azhar-YouTube-Video-Downloader
+
+- cd Azhar-YouTube-Video-Downloader
 
 2. Install dependencies you need during development:
-pip install yt-dlp
+ - pip install yt-dlp
 
 
-FFmpeg: download ffmpeg.exe and place it next to the script or add to PATH.
+ - FFmpeg: download ffmpeg.exe and place it next to the script or add to PATH.
 
 3. Run:
 python YTDByAzharV4Complete.py
