@@ -17,7 +17,7 @@ A polished Tkinter desktop app for Windows to download YouTube videos or audio w
 
 ## Screenshots
 
-(Place screenshots here: `docs/screenshot-1.png`, `docs/screenshot-2.png`)
+![alt text](image.png) ![alt text](image-1.png)
 
 ## How it works
 
