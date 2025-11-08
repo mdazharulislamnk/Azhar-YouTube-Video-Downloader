@@ -1,0 +1,2 @@
+pyinstaller --onefile --noconsole --name "AzharYTD" --icon "azhar.ico" ^
+--add-data "logo.png;." YTDByAzharV4Complete.py
