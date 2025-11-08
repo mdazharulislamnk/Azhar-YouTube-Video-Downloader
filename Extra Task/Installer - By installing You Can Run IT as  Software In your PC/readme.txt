@@ -1,1 +1,0 @@
-By installing AzharYTD-Setup.exe You Can Run IT as A Software In your PC
