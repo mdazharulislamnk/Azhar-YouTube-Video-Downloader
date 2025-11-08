@@ -41,13 +41,13 @@ text
 2. Install dependencies you need during development:
 pip install yt-dlp
 
-text
+
 FFmpeg: download ffmpeg.exe and place it next to the script or add to PATH.
 
 3. Run:
 python YTDByAzharV4Complete.py
 
-text
+
 
 ## Build a single-file EXE (Windows)
 
@@ -58,7 +58,7 @@ Two ways: simple side-by-side binaries (easiest) or fully bundled.
 1. Install PyInstaller:
 pip install --upgrade pyinstaller
 
-text
+
 2. Optional app icon:
 - Convert PNG to ICO (use Pillow):
   ```
@@ -72,12 +72,12 @@ PY
 3. Build:
 pyinstaller --onefile --noconsole --name "AzharYTD" --icon "azhar.ico" YTDByAzharV4Complete.py
 
-text
+
 4. Copy runtime tools next to the EXE:
 copy /y yt-dlp.exe dist
 copy /y ffmpeg.exe dist\
 
-text
+
 5. Distribute `dist\AzharYTD.exe` together with `yt-dlp.exe` and `ffmpeg.exe`.
 
 ### B) Fully bundled (embed yt-dlp and FFmpeg inside the EXE)
@@ -88,7 +88,7 @@ pyinstaller --onefile --noconsole --name "AzharYTD" --icon "azhar.ico" ^
 --add-binary "yt-dlp.exe;." --add-binary "ffmpeg.exe;." ^
 YTDByAzharV4Complete.py
 
-text
+
 3. Distribute just `dist\AzharYTD.exe`.
 
 Note:
@@ -104,7 +104,7 @@ Note:
 ├─ dist/ # PyInstaller output
 └─ docs/ # screenshots (optional)
 
-text
+
 
 ## Usage
 
@@ -115,7 +115,7 @@ text
 - On success, the file appears in:
 Azhar Youtube Video Downloader<Video Title> [Quality].mp4
 
-text
+
 
 ## Troubleshooting
 
