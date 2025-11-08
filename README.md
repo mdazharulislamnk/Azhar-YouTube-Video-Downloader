@@ -1,4 +1,3 @@
-text
 # Azhar YouTube Video Downloader
 
 A polished Tkinter desktop app for Windows to download YouTube videos or audio with live progress, pause/resume, and clean UI. Powered by yt-dlp and FFmpeg under the hood.
@@ -7,8 +6,8 @@ A polished Tkinter desktop app for Windows to download YouTube videos or audio w
 
 - Paste any YouTube link (watch, shorts, youtu.be) – auto-normalized to watch URL.
 - Quality presets:
-  - Best Available, 4K, 2K, 1080p, 720p, 480p, 360p, 144p
-  - Audio Only (M4A)
+  - Best Available, 4K, 2K, 1080p, 720p, 480p, 360p, 144p
+  - Audio Only (M4A)
 - Live progress: percent, total size, downloaded, and speed.
 - Pause, Resume (keeps partial .part), and Cancel.
 - Friendly error messages for missing yt-dlp/FFmpeg and common merge issues.
@@ -37,7 +36,6 @@ A polished Tkinter desktop app for Windows to download YouTube videos or audio w
 git clone https://github.com/<your-user>/<your-repo>.git
 cd <your-repo>
 
-text
 2. Install dependencies you need during development:
 pip install yt-dlp
 
@@ -61,14 +59,14 @@ pip install --upgrade pyinstaller
 
 2. Optional app icon:
 - Convert PNG to ICO (use Pillow):
-  ```
-  pip install pillow
-  python - << "PY"
+  ```
+  pip install pillow
+  python - << "PY"
 from PIL import Image
 Image.open("logo.png").convert("RGBA").save("azhar.ico", sizes=[(256,256),(128,128),(64,64),(48,48),(32,32),(16,16)])
 print("Saved azhar.ico")
 PY
-  ```
+  ```
 3. Build:
 pyinstaller --onefile --noconsole --name "AzharYTD" --icon "azhar.ico" YTDByAzharV4Complete.py
 
