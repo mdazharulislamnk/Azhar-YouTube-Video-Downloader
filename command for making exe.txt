@@ -1,2 +1,3 @@
 pyinstaller --onefile --noconsole --name "AzharYTD" --icon "azhar.ico" ^
---add-data "logo.png;." YTDByAzharV4Complete.py
+--add-binary "yt-dlp.exe;." --add-binary "ffmpeg.exe;." ^
+YTDByAzharV4Complete.py
