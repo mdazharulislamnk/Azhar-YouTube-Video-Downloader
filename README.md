@@ -19,8 +19,8 @@ A Tkinter desktop app for Windows to download YouTube videos or audio with live 
 
 Place screenshots under docs/ and reference them here:
 
-![Main UI](docs/screenshot-1.png)
-![Progress](docs/screenshot-2.png)
+![Main UI](screenshot-1.png)
+![Progress](screenshot-2.png)
 
 ## How it works
 
@@ -30,7 +30,7 @@ Place screenshots under docs/ and reference them here:
 
 ## Project layout
 
-Azhar-YouTube-Video-Downloader/
+ Azhar-YouTube-Video-Downloader/
 ├─ YTDByAzharV4Complete.py
 ├─ yt-dlp.exe
 ├─ ffmpeg.exe
