@@ -1,173 +1,142 @@
-# Azhar YouTube Video Downloader — README
+# Azhar YouTube Video Downloader
 
-A Tkinter desktop app for Windows to download YouTube videos or audio with live progress, pause/resume, and a clean animated UI. Uses yt-dlp for fetching and FFmpeg for merging.
+A polished Tkinter desktop app for Windows to download YouTube videos or audio with live progress, pause/resume, and clean UI. Powered by yt-dlp and FFmpeg under the hood.
 
 ## Features
 
-- URL sanitizer (watch/shorts/youtu.be → canonical watch URL)
+- Paste any YouTube link (watch, shorts, youtu.be) – auto-normalized to watch URL.
 - Quality presets:
-  - Best Available, 4K, 2K, 1080p, 720p, 480p, 360p, 144p
-  - Audio Only (M4A)
-- Live stats: percent, total size, downloaded, speed
-- Pause, Resume (keeps .part), and Cancel
-- Error guidance (missing yt-dlp, missing/old FFmpeg)
-- Animated gradient background, shimmer progress, hover/ripple buttons
-- Optional glow replaced with a breathing 5‑point star that cycles colors and shows “Azhar”
-- Output folder: “Azhar Youtube Video Downloader” next to the app
+  - Best Available, 4K, 2K, 1080p, 720p, 480p, 360p, 144p
+  - Audio Only (M4A)
+- Live progress: percent, total size, downloaded, and speed.
+- Pause, Resume (keeps partial .part), and Cancel.
+- Friendly error messages for missing yt-dlp/FFmpeg and common merge issues.
+- Downloads saved to “Azhar Youtube Video Downloader” folder next to the app.
+- Clean, gradient UI with ttk styling.
 
 ## Screenshots
 
-Place screenshots under docs/ and reference them here:
-
-![Main UI](screenshot-1.png)
-![Progress](screenshot-2.png)
+![alt text](image.png) ![alt text](image-1.png)
 
 ## How it works
 
-- Invokes yt-dlp via subprocess and parses stdout to update progress without freezing the UI.  
-- For mixed streams, restores last video totals during merge so stats remain meaningful.  
-- “Audio Only” uses bestaudio[ext=m4a] and skips merging.
+- The app shells out to `yt-dlp` for downloads and uses FFmpeg for muxing video+audio where needed.
+- The console output is parsed in real-time to update the UI without blocking.
+- For “Audio Only”, it selects `bestaudio[ext=m4a]` and skips merge.
 
-## Project layout
+## Requirements
 
- Azhar-YouTube-Video-Downloader/
-├─ YTDByAzharV4Complete.py
-├─ yt-dlp.exe
-├─ ffmpeg.exe
-├─ logo.png
-├─ azhar.ico
-├─ dist/
-│ ├─ AzharYTD.exe
-│ ├─ yt-dlp.exe
-│ ├─ ffmpeg.exe
-│ ├─ azhar.ico
-│ ├─ AzharYTD.iss
-│ └─ Output/
-│ └─ AzharYTD-Setup.exe
-└─ docs/
-├─ screenshot-1.png
-└─ screenshot-2.png
+- Windows 10/11.
+- yt-dlp and FFmpeg available to the app (bundled or side-by-side).
+- Python 3.9+ only for development; end-users don’t need Python if you ship the EXE.
 
+## Quick Start (dev)
 
-
-## Quick start (dev)
-
+1. Clone the repo:
 git clone https://github.com/<your-user>/<your-repo>.git
 cd <your-repo>
+
+2. Install dependencies you need during development:
 pip install yt-dlp
 
-Ensure ffmpeg.exe is present or on PATH
+
+FFmpeg: download ffmpeg.exe and place it next to the script or add to PATH.
+
+3. Run:
 python YTDByAzharV4Complete.py
 
 
 
-## Build EXE — side‑by‑side (no code changes)
+## Build a single-file EXE (Windows)
 
+Two ways: simple side-by-side binaries (easiest) or fully bundled.
+
+### A) Simple (ship yt-dlp.exe and ffmpeg.exe next to the EXE)
+
+1. Install PyInstaller:
+pip install --upgrade pyinstaller
+
+
+2. Optional app icon:
+- Convert PNG to ICO (use Pillow):
+  ```
+  pip install pillow
+  python - << "PY"
+from PIL import Image
+Image.open("logo.png").convert("RGBA").save("azhar.ico", sizes=[(256,256),(128,128),(64,64),(48,48),(32,32),(16,16)])
+print("Saved azhar.ico")
+PY
+  ```
+3. Build:
 pyinstaller --onefile --noconsole --name "AzharYTD" --icon "azhar.ico" YTDByAzharV4Complete.py
 
 
-undefined
+4. Copy runtime tools next to the EXE:
 copy /y yt-dlp.exe dist
 copy /y ffmpeg.exe dist\
 
 
+5. Distribute `dist\AzharYTD.exe` together with `yt-dlp.exe` and `ffmpeg.exe`.
 
-Ship the folder containing:
-dist\AzharYTD.exe + yt-dlp.exe + ffmpeg.exe
+### B) Fully bundled (embed yt-dlp and FFmpeg inside the EXE)
 
-
-
-## Build EXE — embedded binaries (already used)
-
+1. Place `yt-dlp.exe` and `ffmpeg.exe` in the project root.
+2. Build:
 pyinstaller --onefile --noconsole --name "AzharYTD" --icon "azhar.ico" ^
 --add-binary "yt-dlp.exe;." --add-binary "ffmpeg.exe;." ^
 YTDByAzharV4Complete.py
 
 
-> If code does not point to extracted copies, still ship tools side‑by‑side or use the installer below.
+3. Distribute just `dist\AzharYTD.exe`.
 
-## Windows installer (Inno Setup in dist/)
+Note:
+- If you embed binaries, adapt the code to resolve frozen paths via `sys._MEIPASS` or place both binaries in the same extraction dir (yt-dlp usually finds FFmpeg there automatically).
 
-When AzharYTD.iss is inside dist/ with the files, use:
+## Folder Layout
 
-[Setup]
-AppId={{B4B4C6C8-6F2E-4B2C-9A5E-2C9B7A1DAZHR}
-AppName=Azhar YouTube Downloader
-AppVersion=1.0.0
-DefaultDirName={autopf}\Azhar\YouTubeDownloader
-DefaultGroupName=Azhar Tools
-OutputBaseFilename=AzharYTD-Setup
-Compression=lzma
-SolidCompression=yes
-WizardStyle=modern
-SetupIconFile=azhar.ico
-
-[Languages]
-Name: "english"; MessagesFile: "compiler:Default.isl"
-
-[Files]
-Source: "AzharYTD.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "yt-dlp.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "ffmpeg.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "azhar.ico"; DestDir: "{app}"; Flags: ignoreversion
-
-[Icons]
-Name: "{group}\Azhar YouTube Downloader"; Filename: "{app}\AzharYTD.exe"; IconFilename: "{app}\azhar.ico"
-Name: "{commondesktop}\Azhar YouTube Downloader"; Filename: "{app}\AzharYTD.exe"; IconFilename: "{app}\azhar.ico"
-
-[Run]
-Filename: "{app}\AzharYTD.exe"; Description: "Launch Azhar YouTube Downloader"; Flags: nowait postinstall skipifsilent
-
-
-Compile to produce:
-dist\Output\AzharYTD-Setup.exe
-
-
-
-## Icon from PNG (Pillow)
-
-pip install pillow
-python - << "PY"
-from PIL import Image
-Image.open("logo.png").convert("RGBA").save(
-"azhar.ico",
-sizes=[(256,256),(128,128),(64,64),(48,48),(32,32),(16,16)]
-)
-print("Saved azhar.ico")
-PY
+.
+├─ YTDByAzharV4Complete.py
+├─ logo.png / azhar.ico
+├─ yt-dlp.exe # optional (ship or embed)
+├─ ffmpeg.exe # optional (ship or embed)
+├─ dist/ # PyInstaller output
+└─ docs/ # screenshots (optional)
 
 
 
 ## Usage
 
-- Paste a YouTube URL  
-- Select quality (e.g., 1080p or Audio Only)  
-- Click DOWNLOAD; use Pause/Resume; Cancel removes partial file  
-- Output appears at:
+- Paste a YouTube URL.
+- Choose quality (e.g., 1080p or Audio Only).
+- Click DOWNLOAD.
+- Use Pause/Resume as needed. Cancel deletes partial file.
+- On success, the file appears in:
 Azhar Youtube Video Downloader<Video Title> [Quality].mp4
 
 
 
 ## Troubleshooting
 
-- “yt-dlp not found” → ensure `yt-dlp.exe` is beside the EXE or install via the Inno Setup installer.  
-- “FFmpeg not found” → ensure `ffmpeg.exe` is beside the EXE or included in the installer.  
-- SmartScreen → unsigned apps warn; “More info → Run anyway” or sign the installer.  
-- EXE size → onefile bundles Python; this is expected.
+- “FFmpeg not found”:
+- Place `ffmpeg.exe` next to the app or bundle it.
+- Shows audio stats at the end for mixed downloads:
+- Handled in parsing by prioritizing video lines and restoring last video totals during merge.
+- SmartScreen warning:
+- Notarize/sign the EXE for public distribution or choose “Run anyway”.
 
 ## Roadmap
 
-- Output folder picker  
-- Playlist/batch downloads  
-- Theme toggle (Light/Dark)  
-- Auto-update for yt-dlp
+- File picker for custom output directory
+- Batch downloads and playlist support
+- Theme toggle (Light/Dark)
+- Auto update for yt-dlp
 
 ## License
 
-MIT — see `LICENSE`.
+MIT. See `LICENSE`.
 
 ## Credits
 
-- yt-dlp (MIT)  
-- FFmpeg (LGPL/GPL)  
+- yt-dlp (MIT)
+- FFmpeg (LGPL/GPL components)
 - Tkinter/ttk
